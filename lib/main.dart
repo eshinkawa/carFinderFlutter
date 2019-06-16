@@ -117,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    String timeStamp = DateFormat('dd/MM/yyyy HH:mm')
+    String timeTobeRecorded = DateFormat('dd/MM/yyyy HH:mm')
         .format(DateTime.parse(DateTime.now().toString()));
     return Scaffold(
         body: Center(
@@ -189,14 +189,14 @@ class _MyHomePageState extends State<MyHomePage> {
             selectedLetter: _selectedLetter,
             selectedNumber: _selectedNumber,
             code: code,
-            timeStamp: timeStamp,
+            timeStamp: timeStamp == null ? timeTobeRecorded : timeStamp,
           ),
           Button(
               showButton: _isAllInfoFilled(),
               onPressed: () => {
                     setDataOnStorage('code',
                         '$_selectedLetter$_selectedNumber no $_selectedFloor'),
-                    setDataOnStorage('timeStamp', timeStamp)
+                    setDataOnStorage('timeStamp', timeTobeRecorded)
                   },
               text: "Salvar",
               color: Colors.red),
