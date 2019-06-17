@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import './button.dart';
 import './dropItem.dart';
 import './sign.dart';
-import './button.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(fontFamily: 'IBMPlexSans'),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Onde você deixou seu carro?'),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -133,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            'Aonde você deixou seu carro?',
+            'Onde você deixou seu carro?',
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 40,
