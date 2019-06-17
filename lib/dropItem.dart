@@ -33,7 +33,7 @@ class DropItem extends StatelessWidget {
               ),
             ),
           )
-        : Container(
+        : SizedBox(
             height: 0,
           );
   }

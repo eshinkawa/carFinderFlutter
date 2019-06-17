@@ -30,7 +30,7 @@ class Button extends StatelessWidget {
               color: color,
             ),
           )
-        : Container(
+        : SizedBox(
             height: 0,
           );
   }
