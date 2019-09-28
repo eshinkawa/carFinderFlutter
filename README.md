@@ -1,16 +1,10 @@
-# car_finder
+# Cadê meu carro (Where's my car?)
 
-A new Flutter project.
+Have you ever lost yourself in the sea of cars inside a big parking lot?
 
-## Getting Started
+We have the solution for you!
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+<p align="center">
+  <img width="300" height="580" src="https://github.com/eshinkawa/carFinderFlutter/blob/master/assets/screenshots/android-screenshot.jpg">
+    <img width="300" height="580" src="https://github.com/eshinkawa/carFinderFlutter/blob/master/assets/screenshots/iphone-screenshot.PNG">
+</p>
