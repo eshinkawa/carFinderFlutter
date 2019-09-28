@@ -36,11 +36,11 @@ class _MyHomePageState extends State<MyHomePage> {
   String _selectedNumber;
   String code;
   String timeStamp;
+  bool showSaveButton = true;
 
   @override
   void initState() {
     super.initState();
-    print(code);
     getDataFromStorage();
   }
 
@@ -108,9 +108,57 @@ class _MyHomePageState extends State<MyHomePage> {
     return floor && letter && number;
   }
 
+  bool _anyInfoFilled() {
+    var floor = _selectedFloor != null;
+    var letter = _selectedLetter != null;
+    var number = _selectedNumber != null;
+    return floor || letter || number;
+  }
+
+  Future<void> openDialog(BuildContext context, _selectedLetter,
+      _selectedNumber, _selectedFloor, timeTobeRecorded) async {
+    var _showDialog = showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirmar local de estacionamento?'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('ENVIAR'),
+              onPressed: () {
+                _saveData(_selectedLetter, _selectedNumber, _selectedFloor,
+                    timeTobeRecorded);
+                    setState(() {
+                      showSaveButton = false;
+                    });
+                Navigator.pop(context);
+              },
+            ),
+            FlatButton(
+              child: Text('CANCELAR'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+    return _showDialog;
+  }
+
+  void _saveData(
+      _selectedLetter, _selectedNumber, _selectedFloor, timeTobeRecorded) {
+    setDataOnStorage(
+        'code', '$_selectedLetter$_selectedNumber no $_selectedFloor');
+    setDataOnStorage('timeStamp', timeTobeRecorded);
+    
+  }
+
   void _reset() {
     _selectedFloor = null;
     _selectedLetter = null;
+    _selectedNumber = null;
     _selectedNumber = null;
     setState(() {});
   }
@@ -194,14 +242,13 @@ class _MyHomePageState extends State<MyHomePage> {
           Button(
               showButton: _isAllInfoFilled(),
               onPressed: () => {
-                    setDataOnStorage('code',
-                        '$_selectedLetter$_selectedNumber no $_selectedFloor'),
-                    setDataOnStorage('timeStamp', timeTobeRecorded)
+                    openDialog(context, _selectedLetter, _selectedNumber,
+                        _selectedFloor, timeTobeRecorded)
                   },
               text: "Salvar",
               color: Colors.red),
           Button(
-              showButton: true,
+              showButton: _anyInfoFilled(),
               onPressed: () => {_reset(), removeDataFromStorage()},
               text: "Resetar",
               color: Colors.indigoAccent),
