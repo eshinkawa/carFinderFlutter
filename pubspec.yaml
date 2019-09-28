@@ -1,5 +1,5 @@
-name: car_finder
-description: A new Flutter project.
+name: Cade_Meu_Carro
+description: Não perca mais seu carro no estacionamento!
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -27,9 +27,13 @@ dependencies:
   shared_preferences: ^0.4.3
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+  flutter_launcher_icons: "^0.7.0"
 
+flutter_icons:
+  ios: true
+  android: true
+  image_path_ios: "assets/launcher/parking.png"
+  image_path_android: "assets/launcher/parking.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
