@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import './button.dart';
-import './dropItem.dart';
-import './sign.dart';
+import './components/button.dart';
+import './components/dropItem.dart';
+import './components/sign.dart';
 
 void main() => runApp(MyApp());
 
