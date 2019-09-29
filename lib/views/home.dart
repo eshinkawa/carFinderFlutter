@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import './parking.dart';
 import './customize.dart';
 import './map.dart';
+
 class Home extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -31,6 +32,9 @@ class HomeState extends State<Home> {
     return Scaffold(
       body: _children[_currentIndex], // new
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.red,
+        selectedItemColor: Colors.black54,
+        unselectedItemColor: Colors.white,
         onTap: onTabTapped, // new
         currentIndex: _currentIndex, // new
         items: [

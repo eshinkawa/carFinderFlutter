@@ -7,7 +7,6 @@ import '../components/dropItem.dart';
 import '../components/sign.dart';
 
 class Parking extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() {
     return ParkingState();
@@ -106,15 +105,16 @@ class ParkingState extends State<Parking> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Confirmar local de estacionamento?'),
+          content: Text('$_selectedLetter$_selectedNumber no $_selectedFloor'),
           actions: <Widget>[
             FlatButton(
-              child: Text('ENVIAR'),
+              child: Text('SALVAR'),
               onPressed: () {
                 _saveData(_selectedLetter, _selectedNumber, _selectedFloor,
                     timeTobeRecorded);
-                    setState(() {
-                      showSaveButton = false;
-                    });
+                setState(() {
+                  showSaveButton = false;
+                });
                 Navigator.pop(context);
               },
             ),
@@ -136,7 +136,6 @@ class ParkingState extends State<Parking> {
     setDataOnStorage(
         'code', '$_selectedLetter$_selectedNumber no $_selectedFloor');
     setDataOnStorage('timeStamp', timeTobeRecorded);
-    
   }
 
   void _reset() {
