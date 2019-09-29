@@ -3,7 +3,6 @@ import 'dart:async';
 
 import 'views/home.dart';
 
-
 void main() {
   runApp(MaterialApp(
     home: SplashScreen(),
@@ -31,19 +30,18 @@ class SplashScreenState extends State<SplashScreen> {
   }
 
   onDoneLoading() async {
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Home()));
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => Home()));
     // Navigator.push(context, FadeRoute(page: Parking()));
   }
 
   @override
   Widget build(BuildContext context) {
-    return new WillPopScope(
-        onWillPop: () async => false,
-        child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/imgs/splash.png'), fit: BoxFit.cover),
-          ),
-        ));
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+            image: AssetImage('assets/imgs/splash.png'), fit: BoxFit.cover),
+      ),
+    );
   }
 }

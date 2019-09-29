@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import './parking.dart';
-
+import './customize.dart';
+import './map.dart';
 class Home extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -12,7 +13,7 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   int _currentIndex = 0;
 
-  final List<Widget> _children = [Parking()];
+  final List<Widget> _children = [Parking(), Customize(), Map()];
 
   @override
   void initState() {
@@ -35,14 +36,14 @@ class HomeState extends State<Home> {
         items: [
           new BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            title: Text('Home'),
+            title: Text('Início'),
           ),
           new BottomNavigationBarItem(
-            icon: Icon(Icons.mail),
-            title: Text('Messages'),
+            icon: Icon(Icons.perm_data_setting),
+            title: Text('Crie'),
           ),
           new BottomNavigationBarItem(
-              icon: Icon(Icons.person), title: Text('Profile'))
+              icon: Icon(Icons.map), title: Text('Mapa'))
         ],
       ),
     );

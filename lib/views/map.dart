@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Customize extends StatefulWidget {
+class Map extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return CustomizeState();
+    return MapState();
   }
 }
 
-class CustomizeState extends State<Customize> {
+class MapState extends State<Map> {
   @override
   void initState() {
     super.initState();
@@ -16,7 +16,7 @@ class CustomizeState extends State<Customize> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text("CUSTOMIZE"),
+      body: Text("MAP"),
     );
   }
 }
