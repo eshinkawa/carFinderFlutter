@@ -4,6 +4,8 @@ import './parking.dart';
 import './customize.dart';
 import './map.dart';
 
+import '../utils/constants.dart';
+
 class Home extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -38,16 +40,16 @@ class HomeState extends State<Home> {
         onTap: onTabTapped, // new
         currentIndex: _currentIndex, // new
         items: [
-          new BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            title: Text('Início'),
+            title: Text(BOTTOM_TAB_HOME),
           ),
-          new BottomNavigationBarItem(
-            icon: Icon(Icons.perm_data_setting),
-            title: Text('Crie'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.local_parking),
+            title: Text(BOTTOM_TAB_PARKING),
           ),
-          new BottomNavigationBarItem(
-              icon: Icon(Icons.map), title: Text('Mapa'))
+          BottomNavigationBarItem(
+              icon: Icon(Icons.map), title: Text(BOTTOM_TAB_MAP))
         ],
       ),
     );

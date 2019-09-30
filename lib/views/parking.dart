@@ -6,6 +6,8 @@ import '../components/button.dart';
 import '../components/dropItem.dart';
 import '../components/sign.dart';
 
+import '../utils/constants.dart';
+
 class Parking extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -164,7 +166,7 @@ class ParkingState extends State<Parking> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            'Onde você deixou seu carro?',
+            PARKING_TITLE,
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 40,
