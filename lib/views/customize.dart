@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../services/webservice.dart';
 import '../models/parkingItem.dart';
@@ -23,7 +24,24 @@ class CustomizeState extends State<Customize> {
     Webservice().load(ParkingItem.all).then((parkingItem) => {
           setState(() => {_parkingItem = parkingItem})
         });
-    print(_parkingItem);
+  }
+
+  void _checkNewItem(List<ParkingItem> parkingItem, int index) {
+    var previousChecked = parkingItem.where((i) => i.isSelected).toList();
+    setState(() => {
+        parkingItem[index].isSelected = !parkingItem[index].isSelected,
+        previousChecked[0].isSelected = !previousChecked[0].isSelected
+      }
+    );
+    Fluttertoast.showToast(
+        msg: parkingItem[index].name + ' selecionado',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIos: 1,
+        backgroundColor: Colors.deepOrange,
+        textColor: Colors.white,
+        fontSize: 20.0
+    );
   }
 
   Padding _buildItemsForListView(BuildContext context, int index) {
@@ -31,9 +49,7 @@ class CustomizeState extends State<Customize> {
       padding: const EdgeInsets.fromLTRB(10.0, 2.0, 10.0, 2.0),
       child: Container(
           child: ListTile(
-            onTap: () => {
-              setState(() => {_parkingItem[index].isSelected = !_parkingItem[index].isSelected})
-            },
+            onTap: () => {_checkNewItem(_parkingItem, index)},
             leading: Icon(Icons.local_parking, color: Colors.white38,),
             title:
                 Text(_parkingItem[index].name, style: TextStyle(fontSize: 22, color: Colors.white)),
