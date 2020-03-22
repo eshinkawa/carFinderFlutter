@@ -21,7 +21,7 @@ class ParkingState extends State<Parking> {
   String _selectedNumber;
   String code;
   String timeStamp;
-  bool showSaveButton = true;
+  bool showSaveButton = false;
 
   @override
   void initState() {
@@ -93,13 +93,6 @@ class ParkingState extends State<Parking> {
     return floor && letter && number;
   }
 
-  bool _anyInfoFilled() {
-    var floor = _selectedFloor != null;
-    var letter = _selectedLetter != null;
-    var number = _selectedNumber != null;
-    return floor || letter || number;
-  }
-
   Future<void> openDialog(BuildContext context, _selectedLetter,
       _selectedNumber, _selectedFloor, timeTobeRecorded) async {
     var _showDialog = showDialog<void>(
@@ -114,9 +107,6 @@ class ParkingState extends State<Parking> {
               onPressed: () {
                 _saveData(_selectedLetter, _selectedNumber, _selectedFloor,
                     timeTobeRecorded);
-                setState(() {
-                  showSaveButton = false;
-                });
                 Navigator.pop(context);
               },
             ),
@@ -138,6 +128,10 @@ class ParkingState extends State<Parking> {
     setDataOnStorage(
         'code', '$_selectedLetter$_selectedNumber no $_selectedFloor');
     setDataOnStorage('timeStamp', timeTobeRecorded);
+    setState(() {
+      showSaveButton = false;
+    });
+    print(showSaveButton);
   }
 
   void _reset() {
@@ -231,12 +225,12 @@ class ParkingState extends State<Parking> {
                         _selectedFloor, timeTobeRecorded)
                   },
               text: "Salvar",
-              color: Colors.red),
+              color: Colors.lightBlue),
           Button(
-              showButton: _anyInfoFilled(),
+              showButton: true,
               onPressed: () => {_reset(), removeDataFromStorage()},
               text: "Resetar",
-              color: Colors.indigoAccent),
+              color: Colors.redAccent),
         ],
       )),
     )));
