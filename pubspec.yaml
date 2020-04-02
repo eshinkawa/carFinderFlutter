@@ -44,7 +44,6 @@ flutter_icons:
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -52,7 +51,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-   - assets/imgs/splash.png
+    - assets/imgs/splash.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -74,7 +73,6 @@ flutter:
         - asset: fonts/IBMPlexSans-Light.ttf
         - asset: fonts/IBMPlexSans-Medium.ttf
         - asset: fonts/IBMPlexSans-SemiBold.ttf
-  
   # fonts:
   #   - family: Schyler
   #     fonts:
