@@ -17,6 +17,8 @@ class MapState extends State<Map> {
   CameraPosition _cameraPosition;
   double _latitude = 0;
   double _longitude = 0;
+  BitmapDescriptor _pinLocationIcon;
+  Set<Marker> _markers = {};
 
   @override
   void initState() {
@@ -38,16 +40,38 @@ class MapState extends State<Map> {
     });
   }
 
+  void _setCustomMapPin() async {
+    _pinLocationIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(devicePixelRatio: 2.5),
+        'assets/imgs/icon_marker.png');
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       body: _latitude != 0 && _longitude != 0
           ? GoogleMap(
-              mapType: MapType.hybrid,
+              mapType: MapType.normal,
               initialCameraPosition: _cameraPosition,
               onMapCreated: (GoogleMapController controller) {
                 _controller.complete(controller);
+                _setCustomMapPin();
+                setState(() {
+                  _markers.add(Marker(
+                      markerId: MarkerId("Marker1"),
+                      position: LatLng(_latitude, _longitude),
+                      infoWindow: InfoWindow(
+                          title: 'I am a marker',
+                          onTap: () {
+                            print('Clicado no infowindow');
+                          }),
+                      onTap: () {
+                        print('Clicado no marker');
+                      },
+                      icon: _pinLocationIcon));
+                });
               },
+              markers: _markers,
             )
           : Container(
               child: Center(
