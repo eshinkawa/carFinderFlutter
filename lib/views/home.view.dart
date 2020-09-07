@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 
-import './parking.dart';
-import './customize.dart';
-import './map.dart';
+import 'parking.view.dart';
+import 'customize.view.dart';
+import 'map.view.dart';
 
 import '../utils/constants.dart';
 
-class Home extends StatefulWidget {
+class HomeView extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return HomeState();
   }
 }
 
-class HomeState extends State<Home> {
+class HomeState extends State<HomeView> {
   int _currentIndex = 0;
 
-  final List<Widget> _children = [Parking(), Customize(), Map()];
+  final List<Widget> _children = [ParkingView(), Customize(), Map()];
 
   @override
   void initState() {

@@ -1,3 +1,4 @@
+import 'package:cade_meu_carro/controllers/parking.controller.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
@@ -8,25 +9,25 @@ import '../components/sign.dart';
 
 import '../utils/constants.dart';
 
-class Parking extends StatefulWidget {
+class ParkingView extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return ParkingState();
-  }
+  State<StatefulWidget> createState() => ParkingState();
 }
 
-class ParkingState extends State<Parking> {
+class ParkingState extends State<ParkingView> {
   String _selectedFloor;
   String _selectedLetter;
   String _selectedNumber;
   String code;
   String timeStamp;
   bool showSaveButton = false;
+  ParkingController _controller;
 
   @override
   void initState() {
     super.initState();
-    getDataFromStorage();
+    _controller = ParkingController();
+    _controller.repository.getDataFromStorage();
   }
 
   void setDataOnStorage(String propName, String value) async {

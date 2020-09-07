@@ -11,7 +11,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>carfinder</string>
+	<string>carFinderFlutter</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -41,13 +41,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>io.flutter.embedded_views_preview</key>
-	<string>YES</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Needed to access location</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Needed to access location</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>This app needs access to location when open and in the background</string>
 </dict>
 </plist>

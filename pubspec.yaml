@@ -1,4 +1,4 @@
-name: Cade_Meu_Carro
+name: cade_meu_carro
 description: Não perca mais seu carro no estacionamento!
 
 # The following defines the version and build number for your application.
@@ -32,6 +32,8 @@ dependencies:
 
 dev_dependencies:
   flutter_launcher_icons: "^0.7.0"
+  mobx_codegen:
+  build_runner:
 
 flutter_icons:
   ios: true
