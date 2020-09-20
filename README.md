@@ -1,16 +1,23 @@
-# newcarfinder
+# CarFinder
 
-A new Flutter project.
+Have you ever asked yourself `Where's my car in this infinite sea of metal?`? CarFinder is here for you.
 
-## Getting Started
+## Installation
 
-This project is a starting point for a Flutter application.
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
 
-A few resources to get you started if this is your first Flutter project:
+```bash
+clone it
+```
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+```bash
+flutter run
+```
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+## License
+[MIT]
