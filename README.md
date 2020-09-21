@@ -2,6 +2,12 @@
 
 Have you ever asked yourself `Where's my car in this infinite sea of metal?`? CarFinder is here for you.
 
+<p align="center">
+  <img width="300" height="560" src="https://github.com/eshinkawa/carFinderFlutter/blob/master/assets/screenshots/android-screenshot.jpg">
+    <img width="300" height="560" src="https://github.com/eshinkawa/carFinderFlutter/blob/master/assets/screenshots/iphone-screenshot.PNG">
+</p>
+
+
 ## Installation
 
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.

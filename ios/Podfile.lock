@@ -32,7 +32,7 @@ DEPENDENCIES:
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
 
 SPEC REPOS:
-  https://cdn.cocoapods.org/:
+  trunk:
     - GoogleMaps
 
 EXTERNAL SOURCES:
@@ -66,4 +66,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: c34e2287a9ccaa606aeceab922830efb9a6ff69a
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.9.1
