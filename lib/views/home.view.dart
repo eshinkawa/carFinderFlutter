@@ -16,7 +16,7 @@ class HomeView extends StatefulWidget {
 class HomeState extends State<HomeView> {
   int _currentIndex = 0;
 
-  final List<Widget> _children = [ParkingView(), Customize(), Map()];
+  final List<Widget> _children = [ParkingView(), Customize()];
 
   @override
   void initState() {
@@ -42,14 +42,12 @@ class HomeState extends State<HomeView> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            title: Text(BOTTOM_TAB_HOME),
+            label: BOTTOM_TAB_HOME,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.local_parking),
-            title: Text(BOTTOM_TAB_PARKING),
+            icon: Icon(Icons.query_builder),
+            label: BOTTOM_TAB_HISTORIC,
           ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.map), title: Text(BOTTOM_TAB_MAP))
         ],
       ),
     );
