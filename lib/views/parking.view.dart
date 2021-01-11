@@ -67,7 +67,10 @@ class ParkingState extends State<ParkingView> {
             gradient: LinearGradient(
                 begin: Alignment.topRight,
                 end: Alignment.bottomLeft,
-                colors: [Color(0xff2980b9), Color(0xff2c3e50)])),
+                colors: [
+              Color(0xff000000),
+              Color(0xff000000),
+            ])),
         child: Center(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -79,7 +82,7 @@ class ParkingState extends State<ParkingView> {
                   fontSize: 40,
                   color: Colors.white,
                   letterSpacing: -1,
-                  fontWeight: FontWeight.w200),
+                  fontWeight: FontWeight.w300),
             ),
             Container(
               margin: EdgeInsets.fromLTRB(0, 24, 0, 0),

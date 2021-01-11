@@ -29,10 +29,9 @@ class CustomizeState extends State<Customize> {
   void _checkNewItem(List<ParkingItem> parkingItem, int index) {
     var previousChecked = parkingItem.where((i) => i.isSelected).toList();
     setState(() => {
-        parkingItem[index].isSelected = !parkingItem[index].isSelected,
-        previousChecked[0].isSelected = !previousChecked[0].isSelected
-      }
-    );
+          parkingItem[index].isSelected = !parkingItem[index].isSelected,
+          previousChecked[0].isSelected = !previousChecked[0].isSelected
+        });
     Fluttertoast.showToast(
         msg: parkingItem[index].name + ' selecionado',
         toastLength: Toast.LENGTH_SHORT,
@@ -40,8 +39,7 @@ class CustomizeState extends State<Customize> {
         timeInSecForIos: 1,
         backgroundColor: Colors.deepOrange,
         textColor: Colors.white,
-        fontSize: 20.0
-    );
+        fontSize: 20.0);
   }
 
   Padding _buildItemsForListView(BuildContext context, int index) {
@@ -50,12 +48,20 @@ class CustomizeState extends State<Customize> {
       child: Container(
           child: ListTile(
             onTap: () => {_checkNewItem(_parkingItem, index)},
-            leading: Icon(Icons.local_parking, color: Colors.white38,),
-            title:
-                Text(_parkingItem[index].name, style: TextStyle(fontSize: 22, color: Colors.white)),
+            leading: Icon(
+              Icons.local_parking,
+              color: Colors.white38,
+            ),
+            title: Text(_parkingItem[index].name,
+                style: TextStyle(fontSize: 22, color: Colors.white)),
             subtitle: Text(_parkingItem[index].address,
                 style: TextStyle(fontSize: 12, color: Colors.white70)),
-            trailing: _parkingItem[index].isSelected ? Icon(Icons.check, color: Colors.white38,) : null,
+            trailing: _parkingItem[index].isSelected
+                ? Icon(
+                    Icons.check,
+                    color: Colors.white38,
+                  )
+                : null,
           ),
           decoration: BoxDecoration(
               border: Border(bottom: BorderSide(color: Colors.white24)))),
@@ -83,7 +89,7 @@ class CustomizeState extends State<Customize> {
               gradient: LinearGradient(
                   begin: Alignment.topRight,
                   end: Alignment.bottomLeft,
-                  colors: [Color(0xff2980b9), Color(0xff2c3e50)])),
+                  colors: [Color(0xff000000), Color(0xff2c3e50)])),
           child: ListView.builder(
             itemCount: _parkingItem.length,
             itemBuilder: _buildItemsForListView,

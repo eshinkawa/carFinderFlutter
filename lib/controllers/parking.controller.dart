@@ -1,5 +1,7 @@
+import 'package:cade_meu_carro/models/history_item.dart';
 import 'package:cade_meu_carro/repository/parking.repository.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -107,11 +109,19 @@ abstract class ParkingControllerBase with Store {
         .toList();
   }
 
+  void addHistoryItem(HistoryItem historyItem) {
+    final historyBox = Hive.box('historyItem');
+    historyBox.add(historyItem);
+  }
+
   void saveData(
       selectedLetter, selectedNumber, selectedFloor, timeTobeRecorded) {
-    setDataOnStorage(
-        'code', '$selectedLetter$selectedNumber no $selectedFloor');
+    final parkingSpot = '$selectedLetter$selectedNumber no $selectedFloor';
+    setDataOnStorage('code', parkingSpot);
     setDataOnStorage('timeStamp', timeTobeRecorded);
+    final newHistoryItem =
+        HistoryItem(description: parkingSpot, date: timeTobeRecorded);
+    addHistoryItem(newHistoryItem);
     setShowSaveButton(false);
     print(showSaveButton);
   }
