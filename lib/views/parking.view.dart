@@ -1,12 +1,12 @@
 import 'package:cade_meu_carro/controllers/parking.controller.dart';
+import 'package:cade_meu_carro/models/history_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
-import '../components/button.dart';
-import '../components/dropItem.dart';
-import '../components/sign.dart';
-
 import '../utils/constants.dart';
+import '../widgets/button.dart';
+import '../widgets/dropItem.dart';
+import '../widgets/sign.dart';
 
 class ParkingView extends StatefulWidget {
   @override
@@ -34,11 +34,17 @@ class ParkingState extends State<ParkingView> {
             FlatButton(
               child: Text('SALVAR'),
               onPressed: () {
+                final historyItem = HistoryItem(
+                  description:
+                      '${controller.selectedLetter}${controller.selectedNumber} no ${controller.selectedFloor}',
+                  date: controller.timeTobeRecorded,
+                );
                 controller.saveData(
                     controller.selectedLetter,
                     controller.selectedNumber,
                     controller.selectedFloor,
                     controller.timeTobeRecorded);
+                controller.addHistoryItem(historyItem);
                 controller.setShowSaveButton(false);
                 Navigator.pop(context);
               },
@@ -65,11 +71,11 @@ class ParkingState extends State<ParkingView> {
         padding: EdgeInsets.all(24),
         decoration: BoxDecoration(
             gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
                 colors: [
-              Color(0xff000000),
-              Color(0xff000000),
+              Color(0xff372549),
+              Color(0xff372549),
             ])),
         child: Center(
             child: Column(
@@ -144,13 +150,13 @@ class ParkingState extends State<ParkingView> {
                     controller.isAllInfoFilled() && controller.showSaveButton,
                 onPressed: () => openDialog(context),
                 text: "Salvar",
-                color: Colors.lightBlue),
+                color: Color(0xff5c80bc)),
             Button(
                 showButton: true,
                 onPressed: () =>
                     {controller.reset(), controller.removeDataFromStorage()},
-                text: "Resetar",
-                color: Colors.redAccent),
+                text: "Redefinir",
+                color: Color(0xffb33951)),
           ],
         )),
       ))),

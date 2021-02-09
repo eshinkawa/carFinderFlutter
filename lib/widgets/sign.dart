@@ -22,7 +22,14 @@ class Sign extends StatelessWidget {
             margin: EdgeInsets.fromLTRB(0, 24, 0, 0),
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
-                color: Colors.pink, borderRadius: BorderRadius.circular(4.0)),
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Color(0xffa3bded),
+                      Color(0xff6991c7),
+                    ])),
             child: Column(
               children: <Widget>[
                 Text(

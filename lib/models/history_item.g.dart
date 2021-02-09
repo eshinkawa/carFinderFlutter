@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'historyItem.dart';
+part of 'history_item.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator

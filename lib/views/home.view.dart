@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'parking.view.dart';
-import 'customize.view.dart';
-import 'map.view.dart';
-
 import '../utils/constants.dart';
+import 'history.view.dart';
+import 'parking.view.dart';
 
 class HomeView extends StatefulWidget {
   @override
@@ -34,7 +32,7 @@ class HomeState extends State<HomeView> {
     return Scaffold(
       body: _children[_currentIndex], // new
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.red,
+        backgroundColor: Color(0xff1a1423),
         selectedItemColor: Colors.black54,
         unselectedItemColor: Colors.white,
         onTap: onTabTapped, // new

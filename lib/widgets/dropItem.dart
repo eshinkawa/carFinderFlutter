@@ -18,7 +18,7 @@ class DropItem extends StatelessWidget {
     return isEnabled
         ? Container(
             padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(color: Colors.redAccent),
+            decoration: BoxDecoration(color: Color(0xffb75d69)),
             child: DropdownButtonHideUnderline(
               child: DropdownButton(
                 items: items,

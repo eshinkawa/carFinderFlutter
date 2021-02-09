@@ -76,6 +76,11 @@ abstract class ParkingControllerBase with Store {
     getDataFromStorage();
   }
 
+  void addContact(HistoryItem item) {
+    Box<HistoryItem> historyBox = Hive.box<HistoryItem>('history');
+    historyBox.add(item);
+  }
+
   List<DropdownMenuItem<String>> dropdownFloor() {
     List<String> ddl = ["SS1", "SS2", "SS3"];
     return ddl
@@ -110,7 +115,7 @@ abstract class ParkingControllerBase with Store {
   }
 
   void addHistoryItem(HistoryItem historyItem) {
-    final historyBox = Hive.box('historyItem');
+    Box<HistoryItem> historyBox = Hive.box<HistoryItem>('history');
     historyBox.add(historyItem);
   }
 

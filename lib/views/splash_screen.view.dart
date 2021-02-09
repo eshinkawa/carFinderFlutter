@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
+
+import 'package:flutter/material.dart';
+
 import 'home.view.dart';
 
 class SplashScreenView extends StatefulWidget {
@@ -24,7 +26,6 @@ class SplashScreenState extends State<SplashScreenView> {
   onDoneLoading() async {
     Navigator.of(context)
         .pushReplacement(MaterialPageRoute(builder: (context) => HomeView()));
-    // Navigator.push(context, FadeRoute(page: Parking()));
   }
 
   @override
