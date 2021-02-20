@@ -38,8 +38,9 @@ flutter_icons:
 flutter:
   uses-material-design: true  
   assets:
-    - assets/imgs/splash.png
-    - assets/imgs/icon_marker.png
+    - assets/images/splash.png
+    - assets/images/icon_marker.png
+    - assets/images/bg.jpg
   fonts:
     - family: IBMPlexSans
       fonts:

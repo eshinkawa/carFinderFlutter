@@ -14,10 +14,6 @@ class ParkingRepository implements IParkingRepository {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String codeAsync = prefs.getString('code');
     String timeStampAsync = prefs.getString('timeStamp');
-    // setState(() {
-    //   code = codeAsync;
-    //   timeStamp = timeStampAsync;
-    // });
   }
 
   @override
@@ -101,10 +97,6 @@ class ParkingRepository implements IParkingRepository {
     setDataOnStorage(
         'code', '$_selectedLetter$_selectedNumber no $_selectedFloor');
     setDataOnStorage('timeStamp', timeTobeRecorded);
-    // setState(() {
-    //   showSaveButton = false;
-    // });
-    // print(showSaveButton);
   }
 
   @override

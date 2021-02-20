@@ -63,8 +63,6 @@ abstract class ParkingControllerBase with Store {
 
   void getDataFromStorage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    print('Code: ${prefs.getString('code')}');
-    print('TimeStamp: ${prefs.getString('timeStamp')}');
     setCode(prefs.getString('code'));
     setTimeStamp(prefs.getString('timeStamp'));
   }
@@ -74,11 +72,6 @@ abstract class ParkingControllerBase with Store {
     prefs.remove('code');
     prefs.remove('timeStamp');
     getDataFromStorage();
-  }
-
-  void addContact(HistoryItem item) {
-    Box<HistoryItem> historyBox = Hive.box<HistoryItem>('history');
-    historyBox.add(item);
   }
 
   List<DropdownMenuItem<String>> dropdownFloor() {
@@ -126,9 +119,7 @@ abstract class ParkingControllerBase with Store {
     setDataOnStorage('timeStamp', timeTobeRecorded);
     final newHistoryItem =
         HistoryItem(description: parkingSpot, date: timeTobeRecorded);
-    addHistoryItem(newHistoryItem);
     setShowSaveButton(false);
-    print(showSaveButton);
   }
 
   bool isAllInfoFilled() =>

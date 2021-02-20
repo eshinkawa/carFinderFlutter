@@ -13,16 +13,20 @@ class Customize extends StatelessWidget {
           return Center(
             child: Text("No contacts"),
           );
-        return ListView.builder(
-          itemCount: box.values.length,
-          itemBuilder: (context, index) {
-            HistoryItem currentHistoryItem = box.getAt(index);
-            return Card(
-              clipBehavior: Clip.antiAlias,
-              child: InkWell(
-                onLongPress: () {/* ... */},
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+        return Scaffold(
+          body: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/bg.png"),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: ListView.builder(
+              itemCount: box.values.length,
+              itemBuilder: (context, index) {
+                HistoryItem currentHistoryItem = box.getAt(index);
+                return Container(
+                  margin: EdgeInsets.all(18.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -33,10 +37,10 @@ class Customize extends StatelessWidget {
                       SizedBox(height: 5),
                     ],
                   ),
-                ),
-              ),
-            );
-          },
+                );
+              },
+            ),
+          ),
         );
       },
     );
