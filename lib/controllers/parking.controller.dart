@@ -120,7 +120,6 @@ class ParkingController extends ChangeNotifier {
 
   void deleteHistoryItem(int index) {
     _db.deleteAt(index);
-    reset();
   }
 
   void saveData(

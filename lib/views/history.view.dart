@@ -30,45 +30,52 @@ class HistoryView extends StatelessWidget {
             decoration: BoxDecoration(
               color: Color(0xff372549),
             ),
-            child: ListView.builder(
-              itemCount: box.values.length,
-              itemBuilder: (context, index) {
-                HistoryItem currentHistoryItem = box.getAt(index);
-                return Container(
-                  decoration: BoxDecoration(
-                    color: Color(0xFF5b305a),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  padding: EdgeInsets.all(12),
-                  margin: EdgeInsets.all(6.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            '🅿️ ${currentHistoryItem.description}',
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                          ),
-                          SizedBox(height: 6),
-                          Text(
-                            '⏱️ ${currentHistoryItem.date}',
-                            style: TextStyle(color: Colors.white, fontSize: 16),
-                          ),
-                        ],
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () => provider.deleteHistoryItem(index),
-                        color: Colors.white,
-                      ),
-                    ],
-                  ),
-                );
-              },
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: ListView.builder(
+                reverse: true,
+                shrinkWrap: true,
+                itemCount: box.values.length,
+                itemBuilder: (context, index) {
+                  HistoryItem currentHistoryItem = box.getAt(index);
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xFF5b305a),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    padding: EdgeInsets.all(12),
+                    margin: EdgeInsets.all(6.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              '🅿️ ${currentHistoryItem.description}',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ),
+                            SizedBox(height: 6),
+                            Text(
+                              '⏱️ ${currentHistoryItem.date}',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 16),
+                            ),
+                          ],
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.delete),
+                          onPressed: () => provider.deleteHistoryItem(index),
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         );
