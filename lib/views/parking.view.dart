@@ -1,7 +1,7 @@
 import 'package:cade_meu_carro/controllers/parking.controller.dart';
 import 'package:cade_meu_carro/models/history_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
 
 import '../utils/constants.dart';
 import '../widgets/button.dart';
@@ -14,42 +14,35 @@ class ParkingView extends StatefulWidget {
 }
 
 class ParkingState extends State<ParkingView> {
-  ParkingController controller = ParkingController();
-
-  @override
-  void initState() {
-    super.initState();
-    controller.getDataFromStorage();
-  }
-
-  Future<void> openDialog(BuildContext context) async {
-    var _showDialog = showDialog<void>(
+  Future<void> openDialog(
+      BuildContext context, ParkingController provider) async {
+    final _showDialog = showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Confirmar local de estacionamento?'),
           content: Text(
-              '${controller.selectedLetter}${controller.selectedNumber} no ${controller.selectedFloor}'),
+              '${provider.selectedLetter}${provider.selectedNumber} no ${provider.selectedFloor}'),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               child: Text('SALVAR'),
               onPressed: () {
                 final historyItem = HistoryItem(
                   description:
-                      '${controller.selectedLetter}${controller.selectedNumber} no ${controller.selectedFloor}',
-                  date: controller.timeTobeRecorded,
+                      '${provider.selectedLetter}${provider.selectedNumber} no ${provider.selectedFloor}',
+                  date: provider.timeTobeRecorded,
                 );
-                controller.saveData(
-                    controller.selectedLetter,
-                    controller.selectedNumber,
-                    controller.selectedFloor,
-                    controller.timeTobeRecorded);
-                controller.addHistoryItem(historyItem);
-                controller.setShowSaveButton(false);
+                provider.saveData(
+                    provider.selectedLetter,
+                    provider.selectedNumber,
+                    provider.selectedFloor,
+                    provider.timeTobeRecorded);
+                provider.addHistoryItem(historyItem);
+                provider.setShowSaveButton(false);
                 Navigator.pop(context);
               },
             ),
-            FlatButton(
+            TextButton(
               child: Text('CANCELAR'),
               onPressed: () {
                 Navigator.pop(context);
@@ -64,102 +57,90 @@ class ParkingState extends State<ParkingView> {
 
   @override
   Widget build(BuildContext context) {
-    return Observer(
-      builder: (_) => Scaffold(
-          body: Center(
-              child: Container(
-        padding: EdgeInsets.all(24),
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-              Color(0xff372549),
-              Color(0xff372549),
-            ])),
-        child: Center(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              PARKING_TITLE,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 40,
-                  color: Colors.white,
-                  letterSpacing: -1,
-                  fontWeight: FontWeight.w300),
-            ),
-            Container(
-              margin: EdgeInsets.fromLTRB(0, 24, 0, 0),
-              child: Theme(
-                data: ThemeData.dark(),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    DropItem(
-                      isEnabled: controller.code == null,
-                      dropHint: 'Andar',
-                      items: controller.dropdownFloor(),
-                      selectedValue: controller.selectedFloor,
-                      onChanged: (value) {
-                        controller.setFloor(value);
-                        if (controller.isAllInfoFilled())
-                          controller.setShowSaveButton(true);
-                      },
+    final provider = Provider.of<ParkingController>(context);
+    return Scaffold(
+        body: Center(
+            child: Container(
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Color(0xff372549),
+      ),
+      child: Center(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            PARKING_TITLE,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 40,
+                color: Colors.white,
+                letterSpacing: -1,
+                fontWeight: FontWeight.w300),
+          ),
+          !provider.isAllInfoFilled()
+              ? Container(
+                  margin: EdgeInsets.fromLTRB(0, 24, 0, 0),
+                  child: Theme(
+                    data: ThemeData.dark(),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        DropItem(
+                          isEnabled: provider.code == null,
+                          dropHint: 'Andar',
+                          items: provider.dropdownFloor(),
+                          selectedValue: provider.selectedFloor,
+                          onChanged: (value) => provider.setFloor(value),
+                        ),
+                        DropItem(
+                          isEnabled: provider.code == null,
+                          dropHint: 'Letra',
+                          items: provider.dropdownLetter(),
+                          selectedValue: provider.selectedLetter,
+                          onChanged: (value) => provider.setLetter(value),
+                        ),
+                        DropItem(
+                          isEnabled: provider.code == null,
+                          dropHint: 'Número',
+                          items: provider.dropdownNumber(),
+                          selectedValue: provider.selectedNumber,
+                          onChanged: (value) => provider.setNumber(value),
+                        ),
+                      ],
                     ),
-                    DropItem(
-                      isEnabled: controller.code == null,
-                      dropHint: 'Letra',
-                      items: controller.dropdownLetter(),
-                      selectedValue: controller.selectedLetter,
-                      onChanged: (value) {
-                        controller.setLetter(value);
-                        if (controller.isAllInfoFilled())
-                          controller.setShowSaveButton(true);
-                      },
-                    ),
-                    DropItem(
-                      isEnabled: controller.code == null,
-                      dropHint: 'Número',
-                      items: controller.dropdownNumber(),
-                      selectedValue: controller.selectedNumber,
-                      onChanged: (value) {
-                        controller.setNumber(value);
-                        if (controller.isAllInfoFilled())
-                          controller.setShowSaveButton(true);
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Sign(
-              isAllInfoFilled: controller.isAllInfoFilled(),
-              selectedFloor: controller.selectedFloor,
-              selectedLetter: controller.selectedLetter,
-              selectedNumber: controller.selectedNumber,
-              code: controller.code,
-              timeStamp: controller.timeStamp == null
-                  ? controller.timeTobeRecorded
-                  : controller.timeStamp,
-            ),
-            Button(
-                showButton:
-                    controller.isAllInfoFilled() && controller.showSaveButton,
-                onPressed: () => openDialog(context),
-                text: "Salvar",
-                color: Color(0xff5c80bc)),
-            Button(
-                showButton: true,
-                onPressed: () =>
-                    {controller.reset(), controller.removeDataFromStorage()},
-                text: "Redefinir",
-                color: Color(0xffb33951)),
-          ],
-        )),
-      ))),
-    );
+                  ),
+                )
+              : Container(),
+          Sign(
+            isAllInfoFilled: provider.isAllInfoFilled(),
+            selectedFloor: provider.selectedFloor,
+            selectedLetter: provider.selectedLetter,
+            selectedNumber: provider.selectedNumber,
+            code: provider.code,
+            timeStamp: provider.timeStamp == null
+                ? provider.timeTobeRecorded
+                : provider.timeStamp,
+          ),
+          SizedBox(
+            height: 24,
+          ),
+          Button(
+              showButton: provider.isAllInfoFilled() && provider.showSaveButton,
+              onPressed: () => openDialog(context, provider),
+              text: "Salvar",
+              color: Color(0xff5c80bc)),
+          Button(
+              showButton: true,
+              onPressed: () => {
+                    provider.reset(),
+                    provider.removeDataFromStorage(),
+                  },
+              text: "Redefinir",
+              color: Color(0xffb33951)),
+        ],
+      )),
+    )));
   }
 }

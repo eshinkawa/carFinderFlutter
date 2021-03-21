@@ -14,7 +14,7 @@ class HomeView extends StatefulWidget {
 class HomeState extends State<HomeView> {
   int _currentIndex = 0;
 
-  final List<Widget> _children = [ParkingView(), Customize()];
+  final List<Widget> _children = [ParkingView(), HistoryView()];
 
   @override
   void initState() {
@@ -32,9 +32,9 @@ class HomeState extends State<HomeView> {
     return Scaffold(
       body: _children[_currentIndex], // new
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color(0xff1a1423),
-        selectedItemColor: Colors.black54,
-        unselectedItemColor: Colors.white,
+        backgroundColor: Color(0xff372549),
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.blueGrey,
         onTap: onTabTapped, // new
         currentIndex: _currentIndex, // new
         items: [

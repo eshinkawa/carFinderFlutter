@@ -1,4 +1,4 @@
-import 'package:flutter_driver/driver_extension.dart' as app;
+// import 'package:flutter_driver/driver_extension.dart' as app;
 //
 // void main() {
 //   // This line enables the extension.

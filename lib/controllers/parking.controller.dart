@@ -1,60 +1,64 @@
 import 'package:cade_meu_carro/models/history_item.dart';
-import 'package:cade_meu_carro/repository/parking.repository.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
-import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-part 'parking.controller.g.dart';
+class ParkingController extends ChangeNotifier {
+  Box<dynamic> _db;
 
-class ParkingController = ParkingControllerBase with _$ParkingController;
-
-abstract class ParkingControllerBase with Store {
-  ParkingRepository repository;
-
-  ParkingControllerBase() {
-    repository = ParkingRepository();
+  ParkingController(Box<dynamic> db) {
+    _db = db;
+    getDataFromStorage();
   }
-
-  @observable
   String selectedFloor;
-
-  @observable
   String selectedLetter;
-
-  @observable
   String selectedNumber;
-
-  @observable
   String code;
-
-  @observable
   String timeStamp;
-
-  @observable
   bool showSaveButton = true;
 
   String timeTobeRecorded = DateFormat('dd/MM/yyyy HH:mm')
       .format(DateTime.parse(DateTime.now().toString()));
 
-  @action
-  void setCode(String value) => code = value;
+  void setCode(String value) {
+    code = value;
+    // notifyListeners();
+  }
 
-  @action
-  void setTimeStamp(String value) => code = value;
+  void setTimeStamp(String value) {
+    timeStamp = value;
+    // notifyListeners();
+  }
 
-  @action
-  void setShowSaveButton(bool value) => showSaveButton = value;
+  void setShowSaveButton(bool value) {
+    showSaveButton = value;
+    notifyListeners();
+  }
 
-  @action
-  void setFloor(String value) => selectedFloor = value;
+  void setFloor(String value) {
+    selectedFloor = value;
+    if (isAllInfoFilled()) {
+      setShowSaveButton(true);
+    }
+    notifyListeners();
+  }
 
-  @action
-  void setLetter(String value) => selectedLetter = value;
+  void setLetter(String value) {
+    selectedLetter = value;
+    if (isAllInfoFilled()) {
+      setShowSaveButton(true);
+    }
+    notifyListeners();
+  }
 
-  @action
-  void setNumber(String value) => selectedNumber = value;
+  void setNumber(String value) {
+    selectedNumber = value;
+    if (isAllInfoFilled()) {
+      setShowSaveButton(true);
+    }
+    notifyListeners();
+  }
 
   void setDataOnStorage(String propName, String value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -65,6 +69,9 @@ abstract class ParkingControllerBase with Store {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setCode(prefs.getString('code'));
     setTimeStamp(prefs.getString('timeStamp'));
+    print(code);
+    print(timeStamp);
+    notifyListeners();
   }
 
   void removeDataFromStorage() async {
@@ -108,8 +115,12 @@ abstract class ParkingControllerBase with Store {
   }
 
   void addHistoryItem(HistoryItem historyItem) {
-    Box<HistoryItem> historyBox = Hive.box<HistoryItem>('history');
-    historyBox.add(historyItem);
+    _db.add(historyItem);
+  }
+
+  void deleteHistoryItem(int index) {
+    _db.deleteAt(index);
+    reset();
   }
 
   void saveData(
@@ -117,8 +128,6 @@ abstract class ParkingControllerBase with Store {
     final parkingSpot = '$selectedLetter$selectedNumber no $selectedFloor';
     setDataOnStorage('code', parkingSpot);
     setDataOnStorage('timeStamp', timeTobeRecorded);
-    final newHistoryItem =
-        HistoryItem(description: parkingSpot, date: timeTobeRecorded);
     setShowSaveButton(false);
   }
 
@@ -129,5 +138,6 @@ abstract class ParkingControllerBase with Store {
     setFloor(null);
     setLetter(null);
     setNumber(null);
+    notifyListeners();
   }
 }

@@ -18,7 +18,7 @@ class Button extends StatelessWidget {
         ? Container(
             width: double.infinity,
             margin: EdgeInsets.fromLTRB(0, 16, 0, 0),
-            child: FlatButton(
+            child: ElevatedButton(
               child: Container(
                 padding: EdgeInsets.all(14),
                 child: Text(
@@ -27,7 +27,8 @@ class Button extends StatelessWidget {
                 ),
               ),
               onPressed: onPressed,
-              color: color,
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(color)),
             ),
           )
         : SizedBox(
