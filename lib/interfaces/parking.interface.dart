@@ -10,11 +10,11 @@ abstract class IParkingRepository {
   bool isAllInfoFilled(
       String selectedFloor, String selectedLetter, String selectedNumber);
 
-  Future<void> openDialog(BuildContext context, _selectedLetter,
-      _selectedNumber, _selectedFloor, timeTobeRecorded);
+  Future<void> openDialog(BuildContext context, String selectedLetter,
+      String selectedNumber, String selectedFloor, String timeTobeRecorded);
 
-  void saveData(
-      _selectedLetter, _selectedNumber, _selectedFloor, timeTobeRecorded);
+  void saveData(String selectedLetter, String selectedNumber,
+      String selectedFloor, String timeTobeRecorded);
 
   void reset();
 

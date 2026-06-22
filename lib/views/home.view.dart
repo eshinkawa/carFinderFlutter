@@ -1,50 +1,43 @@
 import 'package:flutter/material.dart';
 
-import '../utils/constants.dart';
+import '../utils/strings.dart';
 import 'history.view.dart';
 import 'parking.view.dart';
 
 class HomeView extends StatefulWidget {
+  const HomeView({super.key});
+
   @override
-  State<StatefulWidget> createState() {
-    return HomeState();
-  }
+  State<HomeView> createState() => HomeState();
 }
 
 class HomeState extends State<HomeView> {
   int _currentIndex = 0;
 
-  final List<Widget> _children = [ParkingView(), HistoryView()];
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  void onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-  }
+  final List<Widget> _children = const [ParkingView(), HistoryView()];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _children[_currentIndex], // new
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color(0xff372549),
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.blueGrey,
-        onTap: onTabTapped, // new
-        currentIndex: _currentIndex, // new
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: BOTTOM_TAB_HOME,
+      body: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 250),
+        child: _children[_currentIndex],
+      ),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _currentIndex,
+        onDestinationSelected: (index) {
+          setState(() => _currentIndex = index);
+        },
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.local_parking),
+            selectedIcon: Icon(Icons.local_parking, size: 28),
+            label: AppStrings.tabHome,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.query_builder),
-            label: BOTTOM_TAB_HISTORIC,
+          NavigationDestination(
+            icon: Icon(Icons.schedule),
+            selectedIcon: Icon(Icons.schedule, size: 28),
+            label: AppStrings.tabHistory,
           ),
         ],
       ),

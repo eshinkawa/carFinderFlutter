@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 part 'history_item.g.dart';
 
@@ -10,5 +11,5 @@ class HistoryItem {
   @HiveField(1)
   final String date;
 
-  HistoryItem({this.description, this.date});
+  HistoryItem({required this.description, required this.date});
 }

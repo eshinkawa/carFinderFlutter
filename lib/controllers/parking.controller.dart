@@ -1,34 +1,32 @@
 import 'package:cade_meu_carro/models/history_item.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ParkingController extends ChangeNotifier {
-  Box<dynamic> _db;
+  final Box<HistoryItem> _db;
 
-  ParkingController(Box<dynamic> db) {
-    _db = db;
+  ParkingController(this._db) {
     getDataFromStorage();
   }
-  String selectedFloor;
-  String selectedLetter;
-  String selectedNumber;
-  String code;
-  String timeStamp;
+
+  String? selectedFloor;
+  String? selectedLetter;
+  String? selectedNumber;
+  String? code;
+  String? timeStamp;
   bool showSaveButton = true;
 
-  String timeTobeRecorded = DateFormat('dd/MM/yyyy HH:mm')
-      .format(DateTime.parse(DateTime.now().toString()));
+  String timeTobeRecorded =
+      DateFormat('dd/MM/yyyy HH:mm').format(DateTime.now());
 
-  void setCode(String value) {
+  void setCode(String? value) {
     code = value;
-    // notifyListeners();
   }
 
-  void setTimeStamp(String value) {
+  void setTimeStamp(String? value) {
     timeStamp = value;
-    // notifyListeners();
   }
 
   void setShowSaveButton(bool value) {
@@ -36,7 +34,7 @@ class ParkingController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setFloor(String value) {
+  void setFloor(String? value) {
     selectedFloor = value;
     if (isAllInfoFilled()) {
       setShowSaveButton(true);
@@ -44,7 +42,7 @@ class ParkingController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setLetter(String value) {
+  void setLetter(String? value) {
     selectedLetter = value;
     if (isAllInfoFilled()) {
       setShowSaveButton(true);
@@ -52,7 +50,7 @@ class ParkingController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setNumber(String value) {
+  void setNumber(String? value) {
     selectedNumber = value;
     if (isAllInfoFilled()) {
       setShowSaveButton(true);
@@ -61,28 +59,26 @@ class ParkingController extends ChangeNotifier {
   }
 
   void setDataOnStorage(String propName, String value) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(propName, value);
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(propName, value);
   }
 
   void getDataFromStorage() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     setCode(prefs.getString('code'));
     setTimeStamp(prefs.getString('timeStamp'));
-    print(code);
-    print(timeStamp);
     notifyListeners();
   }
 
   void removeDataFromStorage() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove('code');
-    prefs.remove('timeStamp');
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('code');
+    await prefs.remove('timeStamp');
     getDataFromStorage();
   }
 
   List<DropdownMenuItem<String>> dropdownFloor() {
-    List<String> ddl = ["SS1", "SS2", "SS3"];
+    const List<String> ddl = ["SS1", "SS2", "SS3"];
     return ddl
         .map((value) => DropdownMenuItem(
               value: value,
@@ -92,7 +88,7 @@ class ParkingController extends ChangeNotifier {
   }
 
   List<DropdownMenuItem<String>> dropdownLetter() {
-    List<String> ddl = ["A", "B", "C", "D", "E", "F"];
+    const List<String> ddl = ["A", "B", "C", "D", "E", "F"];
     return ddl
         .map((value) => DropdownMenuItem(
               value: value,
@@ -102,14 +98,14 @@ class ParkingController extends ChangeNotifier {
   }
 
   List<DropdownMenuItem<String>> dropdownNumber() {
-    List<String> list = [];
+    final List<String> list = [];
     for (var i = 1; i < 31; i++) {
       list.add(i.toString());
     }
     return list
         .map((value) => DropdownMenuItem(
               value: value,
-              child: Text(value.toString()),
+              child: Text(value),
             ))
         .toList();
   }
@@ -123,15 +119,20 @@ class ParkingController extends ChangeNotifier {
   }
 
   void saveData(
-      selectedLetter, selectedNumber, selectedFloor, timeTobeRecorded) {
+      String? selectedLetter,
+      String? selectedNumber,
+      String? selectedFloor,
+      String? timeTobeRecorded) {
     final parkingSpot = '$selectedLetter$selectedNumber no $selectedFloor';
     setDataOnStorage('code', parkingSpot);
-    setDataOnStorage('timeStamp', timeTobeRecorded);
+    setDataOnStorage('timeStamp', timeTobeRecorded ?? '');
     setShowSaveButton(false);
   }
 
   bool isAllInfoFilled() =>
-      selectedFloor != null && selectedLetter != null && selectedNumber != null;
+      selectedFloor != null &&
+      selectedLetter != null &&
+      selectedNumber != null;
 
   void reset() {
     setFloor(null);

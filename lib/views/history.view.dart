@@ -1,82 +1,148 @@
 import 'package:cade_meu_carro/controllers/parking.controller.dart';
 import 'package:cade_meu_carro/models/history_item.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../utils/strings.dart';
+
 class HistoryView extends StatelessWidget {
+  const HistoryView({super.key});
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ParkingController>(context);
     return ValueListenableBuilder(
       valueListenable: Hive.box<HistoryItem>('history').listenable(),
       builder: (context, Box<HistoryItem> box, _) {
-        if (box.values.isEmpty)
-          return Container(
-            decoration: BoxDecoration(
-              color: Color(0xff372549),
-            ),
+        if (box.values.isEmpty) {
+          return SafeArea(
             child: Center(
-              child: Text(
-                "Histórico vazio",
-                style: TextStyle(color: Colors.white, fontSize: 28),
+              child: Padding(
+                padding: const EdgeInsets.all(32),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.schedule,
+                      size: 64,
+                      color: Colors.white.withAlpha(77),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      AppStrings.historyEmpty,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall
+                          ?.copyWith(color: Colors.white70),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Your saved parking spots will appear here',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(color: Colors.white.withAlpha(100)),
+                    ),
+                  ],
+                ),
               ),
             ),
           );
-        return Scaffold(
-          body: Container(
-            padding: EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: Color(0xff372549),
-            ),
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: ListView.builder(
-                reverse: true,
-                shrinkWrap: true,
-                itemCount: box.values.length,
-                itemBuilder: (context, index) {
-                  HistoryItem currentHistoryItem = box.getAt(index);
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: Color(0xFF5b305a),
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    padding: EdgeInsets.all(12),
-                    margin: EdgeInsets.all(6.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              '🅿️ ${currentHistoryItem.description}',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
-                            ),
-                            SizedBox(height: 6),
-                            Text(
-                              '⏱️ ${currentHistoryItem.date}',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 16),
-                            ),
-                          ],
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () => provider.deleteHistoryItem(index),
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
-                  );
-                },
+        }
+        return SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                child: Text(
+                  '${box.values.length} saved',
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(color: Colors.white54),
+                ),
               ),
-            ),
+              Expanded(
+                child: ListView.builder(
+                  reverse: true,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  itemCount: box.values.length,
+                  itemBuilder: (context, index) {
+                    final HistoryItem? currentHistoryItem = box.getAt(index);
+                    if (currentHistoryItem == null) {
+                      return const SizedBox.shrink();
+                    }
+                    return Dismissible(
+                      key: ValueKey(currentHistoryItem.date),
+                      direction: DismissDirection.endToStart,
+                      background: Container(
+                        alignment: Alignment.centerRight,
+                        padding: const EdgeInsets.only(right: 24),
+                        margin: const EdgeInsets.symmetric(vertical: 6),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.error,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: const Icon(Icons.delete, color: Colors.white),
+                      ),
+                      onDismissed: (_) => provider.deleteHistoryItem(index),
+                      child: Card(
+                        margin: const EdgeInsets.symmetric(vertical: 6),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 48,
+                                height: 48,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .secondary
+                                      .withAlpha(51),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: const Icon(
+                                  Icons.local_parking,
+                                  color: Colors.white70,
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      currentHistoryItem.description,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      currentHistoryItem.date,
+                                      style: TextStyle(
+                                        color: Colors.white.withAlpha(153),
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         );
       },
