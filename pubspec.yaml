@@ -1,40 +1,36 @@
 name: cade_meu_carro
-description: Não perca mais seu carro no estacionamento!
+description: Never lose your car in a parking lot again!
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.2.0 <3.0.0"
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  hive: ^1.4.4+1
-  hive_flutter: ^0.3.1
-  path_provider: ^1.6.27
-  cupertino_icons: ^0.1.2
-  intl: ^0.15.8
-  shared_preferences: ^0.4.3
-  http: ^0.12.0+2
-  fluttertoast: ^3.1.3
-  provider: ^5.0.0
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  path_provider: ^2.1.3
+  cupertino_icons: ^1.0.8
+  intl: ^0.19.0
+  shared_preferences: ^2.3.1
+  http: ^1.2.2
+  fluttertoast: ^8.2.8
+  provider: ^6.1.2
 
 dev_dependencies:
-  flutter_launcher_icons: "^0.7.0"
-  build_runner:
-  hive_generator: ^0.8.2
+  flutter_launcher_icons: ^0.14.1
+  build_runner: ^2.4.13
+  hive_generator: ^2.0.1
 
-dependency_overrides:
-  analyzer: '0.39.17'
-  build_resolvers: '1.3.10'
-
-flutter_icons:
+flutter_launcher_icons:
   ios: true
   android: true
   image_path_ios: "assets/launcher/parking.png"
   image_path_android: "assets/launcher/parking.png"
 
 flutter:
-  uses-material-design: true  
+  uses-material-design: true
   assets:
     - assets/images/splash.png
     - assets/images/icon_marker.png
