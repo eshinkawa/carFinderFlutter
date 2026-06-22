@@ -1,21 +1,15 @@
 PODS:
   - Flutter (1.0.0)
-  - fluttertoast (0.0.2):
-    - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
-  fluttertoast:
-    :path: ".symlinks/plugins/fluttertoast/ios"
 
 SPEC CHECKSUMS:
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
-  fluttertoast: 2c67e14dce98bbdb200df9e1acf610d7a6264ea1
 
 PODFILE CHECKSUM: cc1f88378b4bfcf93a6ce00d2c587857c6008d3b
 

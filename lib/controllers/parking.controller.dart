@@ -3,15 +3,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 const _kStorageCode = 'parking_code';
 const _kStorageTime = 'parking_time';
 
 class ParkingController extends ChangeNotifier {
   final Box<HistoryItem> _historyBox;
+  final Box _settingsBox;
 
-  ParkingController(this._historyBox) {
+  ParkingController(this._historyBox, this._settingsBox) {
     _init();
   }
 
@@ -28,13 +28,10 @@ class ParkingController extends ChangeNotifier {
   ValueListenable<Box<HistoryItem>> get historyListenable =>
       _historyBox.listenable();
 
-  Box<HistoryItem> get historyBox => _historyBox;
-
-  Future<void> _init() async {
+  void _init() {
     try {
-      final prefs = await SharedPreferences.getInstance();
-      code = prefs.getString(_kStorageCode);
-      timeStamp = prefs.getString(_kStorageTime);
+      code = _settingsBox.get(_kStorageCode) as String?;
+      timeStamp = _settingsBox.get(_kStorageTime) as String?;
       notifyListeners();
     } catch (e) {
       debugPrint('Failed to load saved parking: $e');
@@ -66,10 +63,8 @@ class ParkingController extends ChangeNotifier {
 
       final historyItem = HistoryItem(description: spot, date: now);
       await _historyBox.add(historyItem);
-
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString(_kStorageCode, spot);
-      await prefs.setString(_kStorageTime, now);
+      await _settingsBox.put(_kStorageCode, spot);
+      await _settingsBox.put(_kStorageTime, now);
 
       code = spot;
       timeStamp = now;
@@ -82,11 +77,10 @@ class ParkingController extends ChangeNotifier {
 
   Future<void> reset() async {
     try {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.remove(_kStorageCode);
-      await prefs.remove(_kStorageTime);
+      await _settingsBox.delete(_kStorageCode);
+      await _settingsBox.delete(_kStorageTime);
     } catch (e) {
-      debugPrint('Failed to clear storage: $e');
+      debugPrint('Failed to clear settings: $e');
     }
     code = null;
     timeStamp = null;

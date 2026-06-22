@@ -10,20 +10,24 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(HistoryItemAdapter());
-  final Box<HistoryItem> db = await Hive.openBox<HistoryItem>('history');
-  runApp(MyApp(database: db));
+  final historyBox = await Hive.openBox<HistoryItem>('history');
+  final settingsBox = await Hive.openBox('settings');
+  runApp(MyApp(historyBox: historyBox, settingsBox: settingsBox));
 }
 
 class MyApp extends StatelessWidget {
-  final Box<HistoryItem> database;
+  final Box<HistoryItem> historyBox;
+  final Box settingsBox;
 
-  const MyApp({super.key, required this.database});
+  const MyApp({super.key, required this.historyBox, required this.settingsBox});
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ParkingController(database)),
+        ChangeNotifierProvider(
+          create: (_) => ParkingController(historyBox, settingsBox),
+        ),
       ],
       child: MaterialApp(
         title: "Where's My Car?",
