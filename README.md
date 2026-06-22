@@ -3,8 +3,7 @@
 Never lose your car in a parking lot again. **Cade Meu Carro** (Portuguese for "Where's My Car") lets you save your parking spot location with floor, section letter, and spot number — then shows you exactly where you parked.
 
 <p align="center">
-  <img width="300" height="560" src="https://github.com/eshinkawa/carFinderFlutter/blob/main/assets/screenshots/android-screenshot.jpg">
-  <img width="300" height="560" src="https://github.com/eshinkawa/carFinderFlutter/blob/main/assets/screenshots/iphone-screenshot.PNG">
+  <img width="280" src="https://github.com/eshinkawa/carFinderFlutter/blob/main/assets/screenshots/parking-view.jpg">
 </p>
 
 ## Features
@@ -69,7 +68,6 @@ lib/
 │   ├── history_item.dart              # Hive model for parking history
 │   └── parkingItem.dart               # Parking lot model (API)
 ├── views/
-│   ├── splash_screen.view.dart        # Splash screen with logo
 │   ├── home.view.dart                 # Bottom nav: parking + history tabs
 │   ├── parking.view.dart              # Main parking spot selection view
 │   └── history.view.dart              # Saved parking history list
@@ -84,7 +82,9 @@ lib/
 ├── interfaces/
 │   └── parking.interface.dart         # Repository contract
 └── utils/
-    └── constants.dart                 # String and URL constants
+    ├── constants.dart                 # API URL constants
+    ├── strings.dart                   # Centralized UI strings
+    └── theme.dart                     # Material 3 ColorScheme theme
 ```
 
 ## License
