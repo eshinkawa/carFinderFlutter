@@ -1,10 +1,9 @@
 import 'package:cade_meu_carro/controllers/parking.controller.dart';
-import 'package:cade_meu_carro/models/history_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../utils/strings.dart';
-import '../widgets/button.dart';
+import '../widgets/app_button.dart';
 import '../widgets/dropItem.dart';
 import '../widgets/sign.dart';
 
@@ -34,7 +33,7 @@ class ParkingState extends State<ParkingView> {
             ),
             const SizedBox(height: 8),
             Text(
-              provider.timeTobeRecorded,
+              provider.timeToBeRecorded,
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.white.withAlpha(179),
@@ -56,15 +55,7 @@ class ParkingState extends State<ParkingView> {
     );
 
     if (confirmed == true) {
-      final historyItem = HistoryItem(
-        description:
-            '${provider.selectedLetter}${provider.selectedNumber} no ${provider.selectedFloor}',
-        date: provider.timeTobeRecorded,
-      );
-      provider.saveData(provider.selectedLetter, provider.selectedNumber,
-          provider.selectedFloor, provider.timeTobeRecorded);
-      provider.addHistoryItem(historyItem);
-      provider.setShowSaveButton(false);
+      await provider.confirmParking();
     }
   }
 
@@ -90,7 +81,10 @@ class ParkingState extends State<ParkingView> {
                   ),
             ),
             const SizedBox(height: 40),
-            if (!provider.isAllInfoFilled() && !hasSaved)
+            if (!(provider.selectedFloor != null &&
+                    provider.selectedLetter != null &&
+                    provider.selectedNumber != null) &&
+                !hasSaved)
               Row(
                 children: [
                   Expanded(
@@ -128,27 +122,28 @@ class ParkingState extends State<ParkingView> {
               const SizedBox.shrink(),
             const SizedBox(height: 24),
             Sign(
-              isAllInfoFilled: provider.isAllInfoFilled(),
+              isAllInfoFilled: provider.selectedFloor != null &&
+                  provider.selectedLetter != null &&
+                  provider.selectedNumber != null,
               selectedFloor: provider.selectedFloor,
               selectedLetter: provider.selectedLetter,
               selectedNumber: provider.selectedNumber,
               code: provider.code,
-              timeStamp: provider.timeStamp ?? provider.timeTobeRecorded,
+              timeStamp: provider.timeStamp ?? provider.timeToBeRecorded,
             ),
             const Spacer(),
-            Button(
-              showButton:
-                  provider.isAllInfoFilled() && provider.showSaveButton,
+            AppButton(
+              showButton: provider.selectedFloor != null &&
+                  provider.selectedLetter != null &&
+                  provider.selectedNumber != null &&
+                  provider.showSaveButton,
               onPressed: () => _openDialog(context, provider),
               text: AppStrings.buttonSave,
               color: Theme.of(context).colorScheme.secondary,
             ),
-            Button(
+            AppButton(
               showButton: true,
-              onPressed: () {
-                provider.reset();
-                provider.removeDataFromStorage();
-              },
+              onPressed: () => provider.reset(),
               text: AppStrings.buttonReset,
               color: Theme.of(context).colorScheme.error,
             ),

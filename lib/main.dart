@@ -1,7 +1,7 @@
 import 'package:cade_meu_carro/controllers/parking.controller.dart';
 import 'package:cade_meu_carro/models/history_item.dart';
-import 'package:cade_meu_carro/routes.dart';
 import 'package:cade_meu_carro/utils/theme.dart';
+import 'package:cade_meu_carro/views/home.view.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         title: "Where's My Car?",
         theme: AppTheme.theme,
         debugShowCheckedModeBanner: false,
-        home: const Routes(),
+        home: const HomeView(),
       ),
     );
   }

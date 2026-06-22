@@ -36,7 +36,7 @@ android {
 
     defaultConfig {
         applicationId "com.eduardoshinkawa.carfinder"
-        minSdk 21
+        minSdkVersion flutter.minSdkVersion
         targetSdk 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

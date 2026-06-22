@@ -1,14 +1,18 @@
 import 'package:cade_meu_carro/models/history_item.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ParkingController extends ChangeNotifier {
-  final Box<HistoryItem> _db;
+const _kStorageCode = 'parking_code';
+const _kStorageTime = 'parking_time';
 
-  ParkingController(this._db) {
-    getDataFromStorage();
+class ParkingController extends ChangeNotifier {
+  final Box<HistoryItem> _historyBox;
+
+  ParkingController(this._historyBox) {
+    _init();
   }
 
   String? selectedFloor;
@@ -18,126 +22,111 @@ class ParkingController extends ChangeNotifier {
   String? timeStamp;
   bool showSaveButton = true;
 
-  String timeTobeRecorded =
+  String get timeToBeRecorded =>
       DateFormat('dd/MM/yyyy HH:mm').format(DateTime.now());
 
-  void setCode(String? value) {
-    code = value;
-  }
+  ValueListenable<Box<HistoryItem>> get historyListenable =>
+      _historyBox.listenable();
 
-  void setTimeStamp(String? value) {
-    timeStamp = value;
-  }
+  Box<HistoryItem> get historyBox => _historyBox;
 
-  void setShowSaveButton(bool value) {
-    showSaveButton = value;
-    notifyListeners();
+  Future<void> _init() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      code = prefs.getString(_kStorageCode);
+      timeStamp = prefs.getString(_kStorageTime);
+      notifyListeners();
+    } catch (e) {
+      debugPrint('Failed to load saved parking: $e');
+    }
   }
 
   void setFloor(String? value) {
     selectedFloor = value;
-    if (isAllInfoFilled()) {
-      setShowSaveButton(true);
-    }
+    if (_isAllInfoFilled()) showSaveButton = true;
     notifyListeners();
   }
 
   void setLetter(String? value) {
     selectedLetter = value;
-    if (isAllInfoFilled()) {
-      setShowSaveButton(true);
-    }
+    if (_isAllInfoFilled()) showSaveButton = true;
     notifyListeners();
   }
 
   void setNumber(String? value) {
     selectedNumber = value;
-    if (isAllInfoFilled()) {
-      setShowSaveButton(true);
-    }
+    if (_isAllInfoFilled()) showSaveButton = true;
     notifyListeners();
   }
 
-  void setDataOnStorage(String propName, String value) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(propName, value);
-  }
+  Future<void> confirmParking() async {
+    try {
+      final spot = '$selectedLetter$selectedNumber no $selectedFloor';
+      final now = timeToBeRecorded;
 
-  void getDataFromStorage() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    setCode(prefs.getString('code'));
-    setTimeStamp(prefs.getString('timeStamp'));
-    notifyListeners();
-  }
+      final historyItem = HistoryItem(description: spot, date: now);
+      await _historyBox.add(historyItem);
 
-  void removeDataFromStorage() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove('code');
-    await prefs.remove('timeStamp');
-    getDataFromStorage();
-  }
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_kStorageCode, spot);
+      await prefs.setString(_kStorageTime, now);
 
-  List<DropdownMenuItem<String>> dropdownFloor() {
-    const List<String> ddl = ["SS1", "SS2", "SS3"];
-    return ddl
-        .map((value) => DropdownMenuItem(
-              value: value,
-              child: Text(value),
-            ))
-        .toList();
-  }
-
-  List<DropdownMenuItem<String>> dropdownLetter() {
-    const List<String> ddl = ["A", "B", "C", "D", "E", "F"];
-    return ddl
-        .map((value) => DropdownMenuItem(
-              value: value,
-              child: Text(value),
-            ))
-        .toList();
-  }
-
-  List<DropdownMenuItem<String>> dropdownNumber() {
-    final List<String> list = [];
-    for (var i = 1; i < 31; i++) {
-      list.add(i.toString());
+      code = spot;
+      timeStamp = now;
+      showSaveButton = false;
+      notifyListeners();
+    } catch (e) {
+      debugPrint('Failed to confirm parking: $e');
     }
-    return list
-        .map((value) => DropdownMenuItem(
-              value: value,
-              child: Text(value),
-            ))
-        .toList();
   }
 
-  void addHistoryItem(HistoryItem historyItem) {
-    _db.add(historyItem);
+  Future<void> reset() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove(_kStorageCode);
+      await prefs.remove(_kStorageTime);
+    } catch (e) {
+      debugPrint('Failed to clear storage: $e');
+    }
+    code = null;
+    timeStamp = null;
+    selectedFloor = null;
+    selectedLetter = null;
+    selectedNumber = null;
+    notifyListeners();
   }
 
   void deleteHistoryItem(int index) {
-    _db.deleteAt(index);
+    try {
+      _historyBox.deleteAt(index);
+    } catch (e) {
+      debugPrint('Failed to delete history item: $e');
+    }
   }
 
-  void saveData(
-      String? selectedLetter,
-      String? selectedNumber,
-      String? selectedFloor,
-      String? timeTobeRecorded) {
-    final parkingSpot = '$selectedLetter$selectedNumber no $selectedFloor';
-    setDataOnStorage('code', parkingSpot);
-    setDataOnStorage('timeStamp', timeTobeRecorded ?? '');
-    setShowSaveButton(false);
-  }
-
-  bool isAllInfoFilled() =>
+  bool _isAllInfoFilled() =>
       selectedFloor != null &&
       selectedLetter != null &&
       selectedNumber != null;
 
-  void reset() {
-    setFloor(null);
-    setLetter(null);
-    setNumber(null);
-    notifyListeners();
+  List<DropdownMenuItem<String>> dropdownFloor() {
+    const ddl = ["SS1", "SS2", "SS3"];
+    return ddl
+        .map((v) => DropdownMenuItem(value: v, child: Text(v)))
+        .toList();
+  }
+
+  List<DropdownMenuItem<String>> dropdownLetter() {
+    const ddl = ["A", "B", "C", "D", "E", "F"];
+    return ddl
+        .map((v) => DropdownMenuItem(value: v, child: Text(v)))
+        .toList();
+  }
+
+  List<DropdownMenuItem<String>> dropdownNumber() {
+    final list = List.generate(30, (i) => (i + 1).toString());
+    return list
+        .map((v) => DropdownMenuItem(value: v, child: Text(v)))
+        .toList();
   }
 }

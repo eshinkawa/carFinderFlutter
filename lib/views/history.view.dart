@@ -13,7 +13,7 @@ class HistoryView extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<ParkingController>(context);
     return ValueListenableBuilder(
-      valueListenable: Hive.box<HistoryItem>('history').listenable(),
+      valueListenable: provider.historyListenable,
       builder: (context, Box<HistoryItem> box, _) {
         if (box.values.isEmpty) {
           return SafeArea(
@@ -71,12 +71,10 @@ class HistoryView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   itemCount: box.values.length,
                   itemBuilder: (context, index) {
-                    final HistoryItem? currentHistoryItem = box.getAt(index);
-                    if (currentHistoryItem == null) {
-                      return const SizedBox.shrink();
-                    }
+                    final item = box.getAt(index);
+                    if (item == null) return const SizedBox.shrink();
                     return Dismissible(
-                      key: ValueKey(currentHistoryItem.date),
+                      key: ValueKey(item.date),
                       direction: DismissDirection.endToStart,
                       background: Container(
                         alignment: Alignment.centerRight,
@@ -116,7 +114,7 @@ class HistoryView extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      currentHistoryItem.description,
+                                      item.description,
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 16,
@@ -125,7 +123,7 @@ class HistoryView extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
-                                      currentHistoryItem.date,
+                                      item.date,
                                       style: TextStyle(
                                         color: Colors.white.withAlpha(153),
                                         fontSize: 13,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Button extends StatelessWidget {
-  const Button({
+class AppButton extends StatelessWidget {
+  const AppButton({
     super.key,
     required this.text,
     required this.onPressed,
@@ -16,9 +16,7 @@ class Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!showButton) {
-      return const SizedBox.shrink();
-    }
+    if (!showButton) return const SizedBox.shrink();
     return Padding(
       padding: const EdgeInsets.only(top: 12),
       child: ElevatedButton(
