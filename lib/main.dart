@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ParkingController(database)),
       ],
       child: MaterialApp(
-        title: 'Car Finder',
+        title: "Where's My Car?",
         theme: AppTheme.theme,
         debugShowCheckedModeBanner: false,
         home: const Routes(),

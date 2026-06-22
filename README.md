@@ -1,10 +1,6 @@
-# Cade Meu Carro
+# Where's My Car?
 
-Never lose your car in a parking lot again. **Cade Meu Carro** (Portuguese for "Where's My Car") lets you save your parking spot location with floor, section letter, and spot number — then shows you exactly where you parked.
-
-<p align="center">
-  <img width="280" src="https://github.com/eshinkawa/carFinderFlutter/blob/main/assets/screenshots/parking-view.jpg">
-</p>
+Never lose your car in a parking lot again. **Where's My Car?** lets you save your parking spot location with floor, section letter, and spot number — then shows you exactly where you parked.
 
 ## Features
 
